@@ -60,7 +60,7 @@ trait Userstamps
      */
     public function creator()
     {
-        return $this->belongsTo($this->getUserClass(), $this->getCreatedByColumn());
+        return $this->belongsTo($this->getUserClass(), $this->getCreatedByColumn(), $this->getCreatedByOwnerKey());
     }
 
     /**
@@ -68,7 +68,7 @@ trait Userstamps
      */
     public function editor()
     {
-        return $this->belongsTo($this->getUserClass(), $this->getUpdatedByColumn());
+        return $this->belongsTo($this->getUserClass(), $this->getUpdatedByColumn(), $this->getUpdatedByOwnerKey());
     }
 
     /**
@@ -76,7 +76,7 @@ trait Userstamps
      */
     public function destroyer()
     {
-        return $this->belongsTo($this->getUserClass(), $this->getDeletedByColumn());
+        return $this->belongsTo($this->getUserClass(), $this->getDeletedByColumn(), $this->getDeletedByOwnerKey());
     }
 
     /**
@@ -90,6 +90,16 @@ trait Userstamps
     }
 
     /**
+     * Get the name of the foreign "id" column for the creator.
+     *
+     * @return null|string
+     */
+    public function getCreatedByOwnerKey()
+    {
+        return defined('static::CREATED_BY_OWNER_KEY') ? static::CREATED_BY_OWNER_KEY : null;
+    }
+
+    /**
      * Get the name of the "updated by" column.
      *
      * @return string
@@ -100,6 +110,16 @@ trait Userstamps
     }
 
     /**
+     *  Get the name of the foreign "id" column for the editor.
+     *
+     * @return null|string
+     */
+    public function getUpdatedByOwnerKey()
+    {
+        return defined('static::UPDATED_BY_OWNER_KEY') ? static::UPDATED_BY_OWNER_KEY : null;
+    }
+
+    /**
      * Get the name of the "deleted by" column.
      *
      * @return string
@@ -107,6 +127,16 @@ trait Userstamps
     public function getDeletedByColumn()
     {
         return defined('static::DELETED_BY') ? static::DELETED_BY : 'deleted_by';
+    }
+
+    /**
+     *  Get the name of the foreign "id" column for the destroyer.
+     *
+     * @return null|string
+     */
+    public function getDeletedByOwnerKey()
+    {
+        return defined('static::DELETED_BY_OWNER_KEY') ? static::DELETED_BY_OWNER_KEY : null;
     }
 
     /**
